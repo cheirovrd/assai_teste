@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio Vinícius</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* slate-900 */
+            color: #cbd5e1; /* slate-300 */
+        }
+        .font-gochi-hand {
+            font-family: 'Gochi Hand', cursive;
+        }
+        .highlight-text { 
+            font-family: 'Gochi Hand', cursive;
+            color: #38bdf8; /* sky-400 */
+        }
+        .quote-text-white { 
+            font-family: 'Gochi Hand', cursive; 
+            color: #ffffff; 
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b; /* slate-800 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #38bdf8; /* sky-400 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #0ea5e9; /* sky-500 */
+        }
+
+        /* Estilos do Carrossel da Galeria */
+        .gallery-carousel-container {
+            position: relative;
+            width: 100%;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            overflow: hidden; 
+        }
+        .gallery-carousel-track-wrapper {
+             overflow-x: auto; 
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+        .gallery-carousel-track-wrapper::-webkit-scrollbar {
+            display: none; 
+        }
+        .gallery-carousel-track {
+            display: flex;
+        }
+        .gallery-carousel-item {
+            flex: 0 0 auto;
+            width: 280px; 
+            height: 200px;
+            margin-right: 1.5rem;
+            background-color: #0f172a;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #334155;
+            cursor: pointer; 
+            transition: transform 0.3s ease;
+        }
+        .gallery-carousel-item:hover {
+            transform: scale(1.03);
+        }
+        .gallery-carousel-container::before,
+        .gallery-carousel-container::after {
+            content: "";
+            position: absolute;
+            top: 0; 
+            bottom: 0;
+            width: 60px; 
+            z-index: 3; 
+            pointer-events: none;
+        }
+        .gallery-carousel-container::before {
+            left: 0;
+            background: linear-gradient(to right, #0f172a 30%, transparent); 
+        }
+        .gallery-carousel-container::after {
+            right: 0;
+            background: linear-gradient(to left, #0f172a 30%, transparent);
+        }
+        .gallery-carousel-nav-arrow {
+            position: absolute;
+            top: calc(50% + 3rem); 
+            transform: translateY(-50%);
+            z-index: 4;
+            background-color: rgba(15, 23, 42, 0.7); 
+            color: #94a3b8; 
+            border: 1px solid #334155; 
+            border-radius: 9999px;
+            width: 2.5rem; 
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .gallery-carousel-nav-arrow:hover {
+            background-color: rgba(30, 41, 59, 0.9); 
+            color: #e2e8f0; 
+        }
+        .gallery-carousel-nav-arrow.left { left: 1rem; }
+        .gallery-carousel-nav-arrow.right { right: 1rem; }
+        .gallery-carousel-nav-arrow svg { width: 1.25rem; height: 1.25rem; }
+        .gallery-carousel-nav-arrow.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+
+
+        .sticky-section-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem; 
+        }
+        @media (min-width: 768px) { 
+            .sticky-section-container {
+                flex-direction: row;
+            }
+            .sticky-text-column {
+                position: -webkit-sticky;
+                position: sticky;
+                top: 2rem; 
+                height: fit-content; 
+                align-self: flex-start; 
+            }
+        }
+
+        .grid-background {
+            background-image:
+                linear-gradient(to right, rgba(100, 116, 139, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(100, 116, 139, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .timeline-container {
+            position: relative;
+        }
+        .timeline-items-wrapper {
+            position: relative; 
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+        .timeline-items-wrapper::-webkit-scrollbar { display: none; }
+        
+        .timeline-card { transition: border-color 0.3s ease; }
+        .card-pointer {
+            width: 0; height: 0;
+            border-left: 12px solid transparent; border-right: 12px solid transparent;
+            border-top: 12px solid #334155; 
+            position: absolute; bottom: -11px; 
+            left: 50%; transform: translateX(-50%);
+            z-index: 1; 
+        }
+        .diamond-instance-wrapper { 
+            cursor: pointer;
+            padding: 4px; 
+            position: relative; 
+        }
+        .diamond-text {
+            position: absolute;
+            bottom: 100%; 
+            left: 50%;
+            transform: translateX(-50%) translateY(-4px); 
+            font-size: 0.75rem; 
+            color: #cbd5e1; 
+            background-color: #1e293b; 
+            padding: 2px 6px;
+            border-radius: 0.25rem; 
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            z-index: 5; 
+        }
+        .diamond-instance-wrapper.active .diamond-text {
+            opacity: 1;
+            visibility: visible;
+        }
+        .diamond-instance { 
+            transition: background-color 0.3s ease; 
+        }
+        .timeline-nav-arrows-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 300px; 
+            margin: 1rem auto 1rem; 
+            padding: 0; 
+            position: relative; 
+            z-index: 4;
+        }
+        .timeline-nav-arrow {
+            background-color: transparent; 
+            color: #64748b; 
+            border: none; 
+            border-radius: 0; 
+            width: 2rem; 
+            height: 2rem; 
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: color 0.2s ease;
+        }
+        .timeline-nav-arrow:hover { color: #94a3b8; }
+        .timeline-nav-arrow svg { width: 1.5rem; height: 1.5rem; }
+        .timeline-nav-arrow.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hover-effect-image {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .hover-effect-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .lightbox.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .lightbox-content {
+            background-color: #1e293b; 
+            padding: 1rem;
+            border-radius: 0.5rem; 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-image {
+            max-width: calc(90vw - 2rem); 
+            max-height: calc(90vh - 5rem); 
+            object-fit: contain;
+            border-radius: 0.375rem; 
+        }
+        .lightbox-close {
+            position: absolute;
+            top: -0.75rem; 
+            right: -0.75rem; 
+            color: #e2e8f0; 
+            background-color: #ef4444; 
+            border-radius: 9999px; 
+            width: 2rem; 
+            height: 2rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #0f172a; 
+        }
+        .lightbox-close:hover {
+            background-color: #dc2626; 
+        }
+        .lightbox-close svg {
+            width: 1rem; 
+            height: 1rem; 
+        }
+
+        .quote-image-container { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+      
+        #floating-menu {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .menu-item {
+            padding: 0.5rem;
+            border-radius: 9999px; 
+            color: #94a3b8; 
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .menu-item:hover, .menu-item.active {
+            background-color: #38bdf8; 
+            color: #0f172a; 
+        }
+        .menu-item svg {
+            width: 1.5rem; 
+            height: 1.5rem; 
+        }
+        
+        /* Estilos para a seção de Reflexão Pessoal (Material Design 3 Inspired) */
+        .reflection-card-md3 {
+            background-color: #1e293b; 
+            border-radius: 1rem; 
+            padding: 1.25rem; 
+            border: 1px solid #334155; 
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 220px; 
+        }
+        .reflection-card-md3:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        .reflection-card-icon-bg {
+            width: 3rem; 
+            height: 3rem; 
+            border-radius: 0.75rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem; 
+            background-color: #334155; 
+            transition: background-color 0.3s ease; 
+        }
+        .reflection-card-icon {
+            width: 1.75rem; 
+            height: 1.75rem; 
+            color: #94a3b8; 
+            transition: color 0.3s ease; 
+        }
+        .reflection-card-md3:hover .reflection-icon-1 { color: #ec4899; } 
+        .reflection-card-md3:hover .reflection-icon-bg-1 { background-color: #fbcfe8; } 
+
+        .reflection-card-md3:hover .reflection-icon-2 { color: #8b5cf6; } 
+        .reflection-card-md3:hover .reflection-icon-bg-2 { background-color: #ddd6fe; } 
+
+        .reflection-card-md3:hover .reflection-icon-3 { color: #10b981; } 
+        .reflection-card-md3:hover .reflection-icon-bg-3 { background-color: #a7f3d0; } 
+        
+        .reflection-card-md3:hover .reflection-icon-4 { color: #f59e0b; } 
+        .reflection-card-md3:hover .reflection-icon-bg-4 { background-color: #fef3c7; } 
+
+        .reflection-card-md3:hover .reflection-icon-5 { color: #3b82f6; } 
+        .reflection-card-md3:hover .reflection-icon-bg-5 { background-color: #bfdbfe; } 
+
+        .reflection-card-md3:hover .reflection-icon-6 { color: #ef4444; } 
+        .reflection-card-md3:hover .reflection-icon-bg-6 { background-color: #fee2e2; } 
+
+
+        .reflection-card-title-md3 {
+            font-size: 1.125rem; 
+            font-weight: 600; 
+            color: #e2e8f0; 
+            margin-bottom: 0.5rem; 
+        }
+        .reflection-card-text-md3 {
+            font-size: 0.875rem; 
+            color: #9ca3af; 
+            line-height: 1.6; 
+            flex-grow: 1; 
+        }
+
+
+        /* Estilos para os Cards de Formação (Material Design 3 Inspired) */
+        .formation-card {
+            background-color: #1e293b; 
+            border-radius: 1rem; 
+            padding: 1.5rem; 
+            border: 1px solid #334155; 
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .formation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        .formation-card-icon-bg {
+            width: 3.5rem; 
+            height: 3.5rem; 
+            border-radius: 0.75rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem; 
+            background-color: #334155; 
+            transition: background-color 0.3s ease;
+        }
+        .formation-card-icon {
+            width: 2rem; 
+            height: 2rem; 
+            color: #94a3b8; 
+            transition: color 0.3s ease;
+        }
+        .formation-card:hover .formation-icon-diploma { color: #facc15; } 
+        .formation-card:hover .formation-icon-bg-diploma { background-color: #fef9c3; } 
+        
+        .formation-card:hover .formation-icon-pen { color: #22c55e; } 
+        .formation-card:hover .formation-icon-bg-pen { background-color: #bbf7d0; } 
+
+        .formation-card:hover .formation-icon-figma { color: #a855f7; } 
+        .formation-card:hover .formation-icon-bg-figma { background-color: #f3e8ff; } 
+
+
+        .formation-card-title {
+            font-size: 0.875rem; 
+            font-weight: 500; 
+            color: #64748b; 
+            margin-bottom: 0.25rem; 
+        }
+        .formation-card-main-text {
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            color: #e2e8f0; 
+            margin-bottom: 0.25rem; 
+        }
+        .formation-card-sub-text {
+            font-size: 1rem; 
+            color: #94a3b8; 
+            margin-bottom: 0.5rem; 
+        }
+         .formation-card-description { 
+            font-size: 0.875rem; 
+            color: #9ca3af; 
+            line-height: 1.6; 
+            margin-top: 0.5rem; 
+            margin-bottom: 0.75rem; 
+        }
+        .formation-card-period {
+            font-size: 0.875rem; 
+            color: #64748b; 
+            margin-top: auto; 
+        }
+
+
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <img id="lightbox-image" src="" alt="Imagem Ampliada">
+            <button id="lightbox-close" class="lightbox-close" aria-label="Fechar">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <section id="hero-section" class="py-12 md:py-20 grid-background">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+                        Olá, eu sou o <span class="highlight-text">Vinícius Alves</span>
+                    </h1>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\foto de perfil.png" alt="Foto de Vinícius" class="shadow-2xl w-64 h-64 md:w-80 md:h-80 object-cover rounded-xl">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="passions-section" class="py-12 md:py-16 fade-in-section">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="sticky-section-container">
+                <div class="md:w-2/5 sticky-text-column mb-8 md:mb-0 md:pr-8">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white text-center md:text-left">
+                        <span class="highlight-text">Meus Hobbies</span> <br> Fora do Escritório
+                    </h2>
+                    <p class="mt-4 text-slate-300 text-base leading-relaxed text-center md:text-left">
+                       Fora do ambiente de trabalho eu gosto de estar por dentro do mundo dos <b> carros esportivos,</b> não só pela potência, mas também pelo design e pela engenharia por trás de cada modelo. Gosto muito de <b>cozinhar</b>, especialmente testar receitas novas é uma forma de relaxar e criar com as mãos. Também curto <b>jogar videogame</b>, que pra mim é uma mistura de diversão e inspiração visual. Nos momentos de descanso, adoro <b>sair com minha esposa,</b> curtir boas conversas, filmes ou até uma volta despretensiosa. E quando sobra um tempo, gosto de colocar a mão na massa com <b>carpintaria</b> criar algo do zero com madeira me conecta com o lado mais artesanal da criatividade.
+                    </p>
+                </div>
+                <div class="md:w-3/5 space-y-4">
+                    <div>
+                        <img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\paixão principal.png" alt="Paixão Principal: Carros Esportivos" class="w-full h-auto max-h-[320px] object-cover rounded-lg border-2 border-slate-700 hover-effect-image">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\paixão 03.png" alt="Paixão Secundária 1: Cozinhar" class="w-full h-48 object-cover rounded-lg border-2 border-slate-700 hover-effect-image">
+                        <img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\paixo 05.png" alt="Paixão Secundária 2: Videogame" class="w-full h-48 object-cover rounded-lg border-2 border-slate-700 hover-effect-image">
+                        <img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\paixo 04_.png" alt="Paixão Secundária 3: Sair com a Esposa" class="w-full h-48 object-cover rounded-lg border-2 border-slate-700 hover-effect-image">
+                        <img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\paixão 06.png"alt="Paixão Secundária 4: Carpintaria" class="w-full h-48 object-cover rounded-lg border-2 border-slate-700 hover-effect-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="formation-section" class="py-12 md:py-16 grid-background fade-in-section">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="sticky-section-container">
+                <div class="md:w-2/5 sticky-text-column mb-8 md:mb-0 md:pr-8">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">
+                        Minha<br> <span  class="highlight-text">formação</span>
+                    </h2>
+                    <p class="mt-4 text-slate-300 text-base leading-relaxed">
+                        Minha formação combina conhecimentos em comunicação, design e experiência do usuário, me permitindo atuar com flexibilidade em diferentes contextos. De campanhas publicitárias a produtos digitais. Ao longo da trajetória acadêmica, desenvolvi uma base sólida para criar soluções visuais e estratégicas aplicáveis em múltiplos canais e setores, como mídia impressa, digital, branding, interfaces e marketing integrado.
+                    </p>
+                </div>
+                <div class="md:w-3/5 space-y-6">
+                    <div class="formation-card">
+                        <div class="formation-card-icon-bg formation-icon-bg-diploma">
+                            <svg class="formation-card-icon formation-icon-diploma" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                            </svg>
+                        </div>
+                        <h3 class="formation-card-title">Graduação</h3>
+                        <p class="formation-card-main-text">Faculdade Cruzeiro do Sul</p>
+                        <p class="formation-card-sub-text">Publicidade e Propaganda</p>
+                        <p class="formation-card-description">Formação voltada à criação de campanhas e estratégias de comunicação multiplataforma, com foco em planejamento, redação publicitária, e produção para mídias on e offline.</p>
+                        <p class="formation-card-period">2018 – 2021</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="formation-card">
+                             <div class="formation-card-icon-bg formation-icon-bg-pen">
+                                <svg class="formation-card-icon formation-icon-pen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                                </svg>
+                            </div>
+                            <h3 class="formation-card-title">Tecnólogo</h3>
+                            <p class="formation-card-main-text">Faculdade PUC SP</p>
+                            <p class="formation-card-sub-text">Design Gráfico</p>
+                            <p class="formation-card-description">Aprofundamento em linguagem visual, diagramação, identidade visual e direção de arte, com aplicação prática em diversos formatos: editorial, embalagens, branding e comunicação visual integrada.</p>
+                        </div>
+                        <div class="formation-card">
+                            <div class="formation-card-icon-bg formation-icon-bg-figma">
+                                <svg class="formation-card-icon formation-icon-figma" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2.25C6.615 2.25 2.25 6.615 2.25 12C2.25 17.385 6.615 21.75 12 21.75C17.385 21.75 21.75 17.385 21.75 12C21.75 6.615 17.385 2.25 12 2.25ZM12 4.5C13.245 4.5 14.25 5.505 14.25 6.75C14.25 7.995 13.245 9 12 9C10.755 9 9.75 7.995 9.75 6.75C9.75 5.505 10.755 4.5 12 4.5ZM9.75 12C9.75 10.755 10.755 9.75 12 9.75C13.245 9.75 14.25 10.755 14.25 12C14.25 13.245 13.245 14.25 12 14.25C10.755 14.25 9.75 13.245 9.75 12ZM6.75 12C6.75 10.755 7.755 9.75 9 9.75V14.25C7.755 14.25 6.75 13.245 6.75 12ZM12 15C10.755 15 9.75 16.005 9.75 17.25C9.75 18.495 10.755 19.5 12 19.5C13.245 19.5 14.25 18.495 14.25 17.25V15H12ZM15 9.75C16.245 9.75 17.25 10.755 17.25 12C17.25 13.245 16.245 14.25 15 14.25V9.75Z"/>
+                                </svg>
+                            </div>
+                            <h3 class="formation-card-title">Pós-graduação</h3>
+                            <p class="formation-card-main-text">EBAC</p>
+                            <p class="formation-card-sub-text">UX/UI e Produtos Digitais</p>
+                            <p class="formation-card-description">Formação que abrange práticas de pesquisa, prototipagem, usabilidade e desenvolvimento de soluções visuais centradas no usuário.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="success-projects-section" class="py-12 md:py-16">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <div class="md:w-1/2">
+                     <img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\uni01.png" alt="Projeto Uniasselvi" class="w-full h-auto object-cover rounded-lg border-2 border-slate-700 hover-effect-image">
+                </div>
+                <div class="md:w-1/2 text-center md:text-left">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                        Projetos de <span class="highlight-text">sucesso</span>
+                    </h2>
+                    <p id="project-description-uniasselvi" class="text-slate-400 leading-relaxed">
+                        Um dos meus projetos de sucesso foi minha atuação junto à Uniasselvi e, em paralelo, com a mantenedora responsável por abrir um novo polo em São Mateus (SP). O objetivo era criar toda a comunicação visual do ponto físico, além de materiais digitais para promover o novo polo e atrair alunos. Isso incluía desde a ambientação visual do local até a presença online nas redes sociais.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="timeline-section" class="py-12 md:py-16 grid-background">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-8 md:mb-12">
+                Desafios <br> <span class="highlight-text">Enfrentados</span>
+            </h2>
+            
+            <div class="timeline-container">
+                <div class="timeline-items-wrapper overflow-x-auto pb-4"> 
+                    <div class="flex space-x-6 md:space-x-8 py-2 px-2">
+                        
+                        <div class="timeline-card min-w-[300px] md:min-w-[350px] bg-slate-700 p-6 rounded-xl shadow-xl border border-slate-600 hover:border-sky-500 relative">
+                            <h3 class="font-semibold text-sky-400 text-xl mb-2">Desafio 1: Criação do KV Inicial</h3>
+                            <p class="text-sm text-slate-300">O ponto de partida foi apenas a identidade visual da Uniasselvi. O desafio foi transformar isso em um key visual local adaptado.</p>
+                            <div class="card-pointer"></div>
+                        </div>
+                        <div class="timeline-card min-w-[300px] md:min-w-[350px] bg-slate-700 p-6 rounded-xl shadow-xl border border-slate-600 hover:border-sky-500 relative">
+                            <h3 class="font-semibold text-sky-400 text-xl mb-2">Desafio 2: Materiais Impressos</h3>
+                            <p class="text-sm text-slate-300">Como designer iniciante, não dominava medidas para impressão de grande formato. Foi necessário estudar e buscar orientação.</p>
+                            <div class="card-pointer"></div>
+                        </div>
+                        <div class="timeline-card min-w-[300px] md:min-w-[350px] bg-slate-700 p-6 rounded-xl shadow-xl border border-slate-600 hover:border-sky-500 relative">
+                            <h3 class="font-semibold text-sky-400 text-xl mb-2">Desafio 3: Desdobramento Visual</h3>
+                            <p class="text-sm text-slate-300">Traduzir o KV para diversos formatos exigiu versatilidade. Cada peça precisava manter unidade visual e legibilidade.</p>
+                            <div class="card-pointer"></div>
+                        </div>
+                        <div class="timeline-card min-w-[300px] md:min-w-[350px] bg-slate-700 p-6 rounded-xl shadow-xl border border-slate-600 hover:border-sky-500 relative">
+                            <h3 class="font-semibold text-sky-400 text-xl mb-2">Desafio 4: Criatividade e Função</h3>
+                            <p class="text-sm text-slate-300">A missão era entregar peças visualmente atrativas sem comprometer a função prática de orientação e divulgação local.</p>
+                            <div class="card-pointer"></div>
+                        </div>
+                         <div class="timeline-card min-w-[300px] md:min-w-[350px] bg-slate-700 p-6 rounded-xl shadow-xl border border-slate-600 hover:border-sky-500 relative">
+                            <h3 class="font-semibold text-sky-400 text-xl mb-2">Desafio 5: Relacionamento com a gráfica</h3>
+                            <p class="text-sm text-slate-300">Durante a execução da campanha, enfrentei dificuldades no alinhamento com a gráfica responsável pela produção dos materiais impressos (outdoors, adesivos, cartazes e banners)</p>
+                            <div class="card-pointer"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-nav-arrows-container">
+                    <button class="timeline-nav-arrow left" aria-label="Anterior">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                    </button>
+                    <button class="timeline-nav-arrow right" aria-label="Próximo">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                    </button>
+                </div>
+                <div class="progress-bar-track mt-2 h-2 bg-slate-600 rounded-full w-full max-w-xl lg:max-w-2xl mx-auto relative"> 
+                    <div class="progress-bar-filled h-full bg-sky-400 rounded-full" style="width: 0%;"></div>
+                    <div class="progress-markers-container absolute inset-0 flex justify-between items-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quote-gallery-section" class="py-12 md:py-16">
+        <div class="gallery-carousel-container"> 
+            <div class="container mx-auto px-4 md:px-6 text-center mb-8"> 
+                <div class="quote-image-container mb-6">
+                    <img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\01.png" 
+                         alt="Sucesso do Projeto Uniasselvi" 
+                         class="rounded-lg shadow-xl mx-auto max-w-xs w-full h-auto object-contain">
+                </div>
+                <p class="text-2xl md:text-3xl quote-text-white max-w-3xl mx-auto"> 
+                    "O ponto de atendimento ficou com uma identidade visual bem clara e profissional, e a campanha teve uma boa resposta."
+                </p>
+            </div>
+            
+            <button class="gallery-carousel-nav-arrow left" aria-label="Anterior">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+            </button>
+            <button class="gallery-carousel-nav-arrow right" aria-label="Próximo">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+            </button>
+
+            <div class="gallery-carousel-track-wrapper">
+                <div class="gallery-carousel-track px-4">
+                    <div class="gallery-carousel-item"><img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\uni01.png" alt="Galeria Projeto Uniasselvi 1" class="w-full h-full object-cover rounded-md"></div>
+                    <div class="gallery-carousel-item"><img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\uni03.png" alt="Galeria Projeto Uniasselvi 2" class="w-full h-full object-cover rounded-md"></div>
+                    <div class="gallery-carousel-item"><img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\uni02.png" alt="Galeria Projeto Uniasselvi 3" class="w-full h-full object-cover rounded-md"></div>
+                    <div class="gallery-carousel-item"><img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\Uni04.png" alt="Galeria Projeto Uniasselvi 4" class="w-full h-full object-cover rounded-md"></div>
+                    <div class="gallery-carousel-item"><img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\uni05.png" alt="Galeria Projeto Uniasselvi 5" class="w-full h-full object-cover rounded-md"></div>
+                    <div class="gallery-carousel-item"><img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\uni09.png" alt="Imagem Galeria 6" class="w-full h-full object-cover rounded-md"></div> 
+                    <div class="gallery-carousel-item"><img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\uni06.png" alt="Imagem Galeria 7" class="w-full h-full object-cover rounded-md"></div>
+                    <div class="gallery-carousel-item"><img src="C:\Users\Vinia\OneDrive\Área de Trabalho\IMAGENS\uni01.png" alt="Imagem Galeria 8" class="w-full h-full object-cover rounded-md"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="learnings-section" class="py-12 md:py-16 grid-background">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-10 md:mb-16">
+                O que essa jornada <br> <span class="highlight-text">me ensinou</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-4xl mx-auto">
+                <div class="flex items-start space-x-6 p-6 bg-slate-700 rounded-xl shadow-xl border border-slate-600 hover:border-sky-500 transition-colors duration-300">
+                    <div class="text-6xl font-bold text-sky-400">1</div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-sky-300 mb-2">Design vai além da estética</h3>
+                        <p class="text-slate-300 leading-relaxed">Aprendi que design não é só sobre visual bonito — ele precisa conectar pessoas à marca com clareza e propósito.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-6 p-6 bg-slate-700 rounded-xl shadow-xl border border-slate-600 hover:border-sky-500 transition-colors duration-300">
+                    <div class="text-6xl font-bold text-sky-400">2</div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-sky-300 mb-2">Experiência do usuário no espaço físico</h3>
+                        <p class="text-slate-300 leading-relaxed">Percebi a importância de pensar no ambiente como parte da experiência, desde a visibilidade das placas até o conforto visual.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-6 p-6 bg-slate-700 rounded-xl shadow-xl border border-slate-600 hover:border-sky-500 transition-colors duration-300">
+                    <div class="text-6xl font-bold text-sky-400">3</div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-sky-300 mb-2">Consistência visual em todos os pontos</h3>
+                        <p class="text-slate-300 leading-relaxed">Online e offline devem conversar com a mesma linguagem — a força da marca está na unidade.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-6 p-6 bg-slate-700 rounded-xl shadow-xl border border-slate-600 hover:border-sky-500 transition-colors duration-300">
+                    <div class="text-6xl font-bold text-sky-400">4</div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-sky-300 mb-2">Crescimento na criação e execução</h3>
+                        <p class="text-slate-300 leading-relaxed">O projeto me ensinou muito na prática, mostrando que a execução bem feita é tão importante quanto a ideia original.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="personal-reflection-section" class="py-12 md:py-16 grid-background">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-10 md:mb-16">
+                O que eu <br> <span class="highlight-text">Mudaria</span>
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="reflection-card-md3">
+                    <div class="reflection-card-icon-bg reflection-icon-bg-1">
+                        <svg class="reflection-card-icon reflection-icon-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                        </svg>
+                    </div>
+                    <h3 class="reflection-card-title-md3">Criar um guia visual desde o início</h3>
+                    <p class="reflection-card-text-md3">Ter um manual simples com regras de uso de logo, cores, tipografia e aplicações teria facilitado muito a padronização dos materiais — especialmente pensando em possíveis futuras expansões ou outras equipes usando as peças.</p>
+                </div>
+                <div class="reflection-card-md3">
+                    <div class="reflection-card-icon-bg reflection-icon-bg-2">
+                        <svg class="reflection-card-icon reflection-icon-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5z" />
+                        </svg>
+                    </div>
+                    <h3 class="reflection-card-title-md3">Investir em estratégias de captação digital</h3>
+                    <p class="reflection-card-text-md3">Poderia ter criado flyers com QR codes levando para uma página de cadastro ou formulário, otimizando a geração de leads. O método usado era muito manual e pouco prático.</p>
+                </div>
+                <div class="reflection-card-md3">
+                     <div class="reflection-card-icon-bg reflection-icon-bg-3">
+                        <svg class="reflection-card-icon reflection-icon-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122" />
+                        </svg>
+                    </div>
+                    <h3 class="reflection-card-title-md3">Planejar um sistema de peças modulares</h3>
+                    <p class="reflection-card-text-md3">Criar uma base de templates adaptáveis para formatos diferentes (Instagram, banner, outdoor, etc.) teria economizado tempo e facilitado ajustes rápidos.</p>
+                </div>
+                <div class="reflection-card-md3">
+                     <div class="reflection-card-icon-bg reflection-icon-bg-4">
+                        <svg class="reflection-card-icon reflection-icon-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.94 3.197m0 0A5.995 5.995 0 0012 21a5.995 5.995 0 00-5.06-2.785M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="reflection-card-title-md3">Aprofundar o briefing com o cliente no início</h3>
+                    <p class="reflection-card-text-md3">Algumas expectativas poderiam ter sido alinhadas melhor no começo, o que teria evitado retrabalhos e ajustes mais demorados ao longo do processo.</p>
+                </div>
+                <div class="reflection-card-md3">
+                    <div class="reflection-card-icon-bg reflection-icon-bg-5">
+                        <svg class="reflection-card-icon reflection-icon-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21M3 3h18M3 7.5h18M3 12h18m-4.5 9H2.25" />
+                        </svg>
+                    </div>
+                    <h3 class="reflection-card-title-md3">Pesquisar com mais profundidade o público local</h3>
+                    <p class="reflection-card-text-md3">Um levantamento mais estruturado sobre o perfil dos moradores de São Mateus (idade, preferências, hábitos digitais) poderia ter deixado a linguagem visual ainda mais assertiva.</p>
+                </div>
+                <div class="reflection-card-md3">
+                    <div class="reflection-card-icon-bg reflection-icon-bg-6">
+                        <svg class="reflection-card-icon reflection-icon-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75H4.875c.621 0 1.125-.504 1.125-1.125V9.75c0-.621-.504-1.125-1.125-1.125H2.25m19.5 0h-2.625c-.621 0-1.125.504-1.125 1.125v4.875c0 .621.504 1.125 1.125 1.125H21.75M16.523 18.034a3.375 3.375 0 01-3.375-3.375V6.375c0-1.862 1.513-3.375 3.375-3.375h.007a3.375 3.375 0 013.375 3.375v8.284a3.375 3.375 0 01-3.375 3.375h-.007zM8.108 18.034a3.375 3.375 0 01-3.375-3.375V6.375c0-1.862 1.513-3.375 3.375-3.375h.007a3.375 3.375 0 013.375 3.375v8.284a3.375 3.375 0 01-3.375 3.375H8.108z" />
+                        </svg>
+                    </div>
+                    <h3 class="reflection-card-title-md3">Fazer testes de impressão antes da produção final</h3>
+                    <p class="reflection-card-text-md3">Por inexperiência, confiei em especificações genéricas. Fazer um teste ou protótipo impresso teria evitado ajustes de última hora ou imprevistos com fornecedores.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="py-8 text-slate-400 text-center border-t border-slate-700">
+        <p>&copy; <span id="currentYear"></span> Vinícius. Todos os direitos reservados.</p>
+        <p class="text-sm">Criado com <span class="text-sky-500">&hearts;</span> e Tailwind CSS.</p>
+    </footer>
+
+    <nav id="floating-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-800/90 backdrop-blur-sm shadow-2xl rounded-full px-4 py-2 z-40 flex items-center space-x-1 transition-opacity duration-300 opacity-100 visible border border-white">
+        <a href="#hero-section" class="menu-item" title="Início">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+        </a>
+        <a href="#passions-section" class="menu-item" title="Paixões">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+        </a>
+        <a href="#formation-section" class="menu-item" title="Formação">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" /></svg>
+        </a>
+        <a href="#success-projects-section" class="menu-item" title="Projetos">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+        </a>
+        <a href="#timeline-section" class="menu-item" title="Desafios">
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-4.5A3.375 3.375 0 0012.75 9.75H11.25A3.375 3.375 0 007.5 13.125V18.75m9 0h1.5a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15A2.25 2.25 0 002.25 6.75v10.5A2.25 2.25 0 004.5 19.5H6" /></svg>
+        </a>
+        <a href="#personal-reflection-section" class="menu-item" title="Reflexões">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-3.862 8.25-8.625 8.25S3.75 16.556 3.75 12c0-4.556 3.862-8.25 8.625-8.25S21 7.444 21 12z" />
+            </svg>
+        </a>
+    </nav>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // --- Script da Timeline Interativa ---
+        const timelineContainer = document.querySelector('.timeline-container');
+        if (timelineContainer) {
+            const timelineWrapper = timelineContainer.querySelector('.timeline-items-wrapper');
+            const progressBarFilled = timelineContainer.querySelector('.progress-bar-filled');
+            const progressMarkersContainer = timelineContainer.querySelector('.progress-markers-container');
+            const timelineCards = timelineContainer.querySelectorAll('.timeline-card');
+            const numCards = timelineCards.length;
+            const navArrowLeft = timelineContainer.querySelector('.timeline-nav-arrow.left');
+            const navArrowRight = timelineContainer.querySelector('.timeline-nav-arrow.right');
+
+            if (progressMarkersContainer && numCards > 0) {
+                progressMarkersContainer.innerHTML = ''; 
+                for (let i = 0; i < numCards; i++) {
+                    const markerWrapper = document.createElement('div');
+                    markerWrapper.className = 'absolute top-1/2 -translate-y-1/2 diamond-instance-wrapper'; 
+                    if (numCards === 1) markerWrapper.style.left = '50%';
+                    else markerWrapper.style.left = `${(i / (numCards - 1)) * 100}%`;
+                    
+                    const diamond = document.createElement('div');
+                    diamond.className = 'w-3 h-3 bg-slate-500 transform rotate-45 rounded-sm -translate-x-1/2 diamond-instance';
+                    markerWrapper.appendChild(diamond);
+
+                    const diamondText = document.createElement('span');
+                    diamondText.className = 'diamond-text';
+                    diamondText.textContent = `Desafio ${i + 1}`;
+                    markerWrapper.appendChild(diamondText);
+
+                    progressMarkersContainer.appendChild(markerWrapper);
+
+                    markerWrapper.addEventListener('click', () => {
+                        if (timelineCards[i]) {
+                            const targetScrollLeft = timelineCards[i].offsetLeft - (timelineWrapper.offsetWidth / 2) + (timelineCards[i].offsetWidth / 2);
+                            timelineWrapper.scrollTo({
+                                left: targetScrollLeft,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                }
+            }
+            
+            const diamondInstancesWrappers = progressMarkersContainer ? progressMarkersContainer.querySelectorAll('.diamond-instance-wrapper') : [];
+
+            if (timelineWrapper && progressBarFilled && diamondInstancesWrappers.length > 0 && numCards > 0 && navArrowLeft && navArrowRight) {
+                const scrollAmount = () => (timelineCards.length > 0) ? timelineCards[0].offsetWidth + parseFloat(getComputedStyle(timelineCards[0]).marginRight) : 300;
+
+                const updateArrowStates = () => {
+                    const scrollLeft = timelineWrapper.scrollLeft;
+                    const maxScrollLeft = timelineWrapper.scrollWidth - timelineWrapper.clientWidth;
+                    navArrowLeft.classList.toggle('disabled', scrollLeft <= 0);
+                    navArrowRight.classList.toggle('disabled', scrollLeft >= maxScrollLeft -1);
+                };
+
+                const updateTimelineState = () => {
+                    const scrollLeft = timelineWrapper.scrollLeft;
+                    const scrollWidth = timelineWrapper.scrollWidth;
+                    const clientWidth = timelineWrapper.clientWidth;
+                    const maxScrollLeft = scrollWidth - clientWidth;
+
+                    let scrollPercentage = (maxScrollLeft > 0) ? (scrollLeft / maxScrollLeft) * 100 : (numCards > 0 ? 100 : 0);
+                    progressBarFilled.style.width = scrollPercentage + '%';
+
+                    diamondInstancesWrappers.forEach((wrapper, index) => {
+                        const diamond = wrapper.querySelector('.diamond-instance');
+                        let activationPointPercentage = (numCards === 1) ? 50 : (index / (numCards - 1)) * 100;
+                        
+                        const isActive = scrollPercentage >= activationPointPercentage - 1 || 
+                                       (scrollLeft === 0 && index === 0) || 
+                                       (maxScrollLeft > 0 && scrollLeft >= maxScrollLeft -1 && index === numCards - 1);
+
+                        if (isActive) {
+                            diamond.classList.replace('bg-slate-500', 'bg-sky-400');
+                            wrapper.classList.add('active');
+                        } else {
+                            diamond.classList.replace('bg-sky-400', 'bg-slate-500');
+                            wrapper.classList.remove('active');
+                        }
+                    });
+                    
+                    if (maxScrollLeft <= 0 && numCards > 0) {
+                        diamondInstancesWrappers.forEach(w => {
+                            w.querySelector('.diamond-instance').classList.replace('bg-slate-500', 'bg-sky-400');
+                            w.classList.add('active');
+                        });
+                    } else if (scrollLeft === 0 && numCards > 0) { 
+                        diamondInstancesWrappers[0].querySelector('.diamond-instance').classList.replace('bg-slate-500', 'bg-sky-400');
+                        diamondInstancesWrappers[0].classList.add('active');
+                        for (let i = 1; i < diamondInstancesWrappers.length; i++) {
+                            diamondInstancesWrappers[i].querySelector('.diamond-instance').classList.replace('bg-sky-400', 'bg-slate-500');
+                            diamondInstancesWrappers[i].classList.remove('active');
+                        }
+                    }
+                    updateArrowStates();
+                };
+                
+                navArrowLeft.addEventListener('click', () => timelineWrapper.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
+                navArrowRight.addEventListener('click', () => timelineWrapper.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
+                timelineWrapper.addEventListener('scroll', updateTimelineState);
+                window.addEventListener('resize', updateTimelineState); 
+                updateTimelineState(); 
+            }
+        }
+
+        // --- Script do Carrossel da Galeria Interativo ---
+        const galleryContainer = document.querySelector('.gallery-carousel-container');
+        if (galleryContainer) {
+            const galleryWrapper = galleryContainer.querySelector('.gallery-carousel-track-wrapper');
+            const galleryTrack = galleryContainer.querySelector('.gallery-carousel-track');
+            const galleryItems = galleryContainer.querySelectorAll('.gallery-carousel-item'); 
+            const galleryNavLeft = galleryContainer.querySelector('.gallery-carousel-nav-arrow.left');
+            const galleryNavRight = galleryContainer.querySelector('.gallery-carousel-nav-arrow.right');
+            let galleryScrollAmount = 0;
+            let autoScrollInterval;
+            let userInteracted = false;
+            let originalItemCount = galleryItems.length; 
+
+            if (originalItemCount > 0) {
+                const itemsToClone = Array.from(galleryItems);
+                itemsToClone.forEach(item => galleryTrack.appendChild(item.cloneNode(true)));
+                
+                galleryScrollAmount = () => (originalItemCount > 0) ? itemsToClone[0].offsetWidth + parseFloat(getComputedStyle(itemsToClone[0]).marginRight) : 280;
+
+                const startAutoScroll = () => {
+                    if (userInteracted || originalItemCount === 0) return; 
+                    clearInterval(autoScrollInterval);
+                    autoScrollInterval = setInterval(() => {
+                        galleryWrapper.scrollLeft += 1; 
+                        const restartPoint = itemsToClone.reduce((acc, item) => acc + item.offsetWidth + parseFloat(getComputedStyle(item).marginRight), 0);
+                        if (galleryWrapper.scrollLeft >= restartPoint) { 
+                           galleryWrapper.scrollLeft = 0; 
+                        }
+                    }, 30); 
+                };
+                
+                const stopAutoScroll = () => {
+                    clearInterval(autoScrollInterval);
+                };
+                
+                const updateGalleryArrowStates = () => {
+                    const canScroll = galleryTrack.scrollWidth > galleryWrapper.clientWidth;
+                    galleryNavLeft.classList.toggle('disabled', !canScroll);
+                    galleryNavRight.classList.toggle('disabled', !canScroll);
+                };
+
+                galleryNavLeft.addEventListener('click', () => {
+                    userInteracted = true; stopAutoScroll();
+                    galleryWrapper.scrollBy({ left: -galleryScrollAmount(), behavior: 'smooth' });
+                });
+
+                galleryNavRight.addEventListener('click', () => {
+                    userInteracted = true; stopAutoScroll();
+                    galleryWrapper.scrollBy({ left: galleryScrollAmount(), behavior: 'smooth' });
+                });
+
+                galleryContainer.addEventListener('mouseenter', () => {
+                    if (!userInteracted) stopAutoScroll();
+                });
+                galleryContainer.addEventListener('mouseleave', () => {
+                     if (!userInteracted) startAutoScroll();
+                });
+                
+                galleryWrapper.addEventListener('scroll', updateGalleryArrowStates); 
+                window.addEventListener('resize', () => {
+                    updateGalleryArrowStates();
+                });
+                updateGalleryArrowStates();
+                startAutoScroll(); 
+
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImage = document.getElementById('lightbox-image');
+                const lightboxClose = document.getElementById('lightbox-close');
+
+                document.querySelectorAll('.gallery-carousel-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const imgSrc = item.querySelector('img').src;
+                        const imgAlt = item.querySelector('img').alt;
+                        lightboxImage.src = imgSrc;
+                        lightboxImage.alt = imgAlt;
+                        lightbox.classList.add('open');
+                        stopAutoScroll(); 
+                        userInteracted = true; 
+                    });
+                });
+
+                lightboxClose.addEventListener('click', () => {
+                    lightbox.classList.remove('open');
+                });
+                lightbox.addEventListener('click', (e) => {
+                    if (e.target === lightbox) { 
+                        lightbox.classList.remove('open');
+                    }
+                });
+            }
+        }
+
+        // --- Script para Animação Fade-in ---
+        const fadeElements = document.querySelectorAll('.fade-in-section');
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        fadeElements.forEach(el => fadeInObserver.observe(el));
+
+        // --- Script do Menu Flutuante ---
+        const floatingMenu = document.getElementById('floating-menu');
+        const menuItems = floatingMenu ? floatingMenu.querySelectorAll('.menu-item') : [];
+        const sections = [ 
+            document.getElementById('hero-section'),
+            document.getElementById('passions-section'),
+            document.getElementById('formation-section'),
+            document.getElementById('success-projects-section'),
+            document.getElementById('timeline-section'),
+            document.getElementById('learnings-section'), 
+            document.getElementById('personal-reflection-section')
+        ];
+
+        if (floatingMenu) { 
+            floatingMenu.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
+            floatingMenu.classList.add('opacity-100', 'visible');
+
+            const sectionObserverOptions = { root: null, threshold: 0.3 }; 
+            const sectionObserver = new IntersectionObserver((entries) => {
+                let currentActiveSectionId = null;
+                let maxIntersectionRatio = 0;
+
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.intersectionRatio > maxIntersectionRatio) {
+                            maxIntersectionRatio = entry.intersectionRatio;
+                            currentActiveSectionId = entry.target.id;
+                        }
+                    }
+                });
+
+                menuItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (currentActiveSectionId && item.getAttribute('href') === `#${currentActiveSectionId}`) {
+                        item.classList.add('active');
+                    }
+                });
+
+            }, sectionObserverOptions);
+
+            sections.forEach(section => {
+                if(section) sectionObserver.observe(section);
+            });
+        }
+
+
+        // --- Scripts para API Gemini (REMOVIDOS) ---
+
+    </script>
+
+</body>
+</html>
+
